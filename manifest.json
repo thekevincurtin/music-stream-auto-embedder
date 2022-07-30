@@ -1,0 +1,21 @@
+{
+  "name": "Music Stream Auto Embedder",
+  "description": "Embeds player widget for elements with music URLs",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+      "scripting",
+      "tabs"
+  ],
+  "host_permissions": [
+    "http://*/*", 
+    "https://*/*"
+  ],
+  "web_accessible_resources": [{
+    "resources": ["jquery-3.6.0.min.js"],
+    "matches": ["http://*/*", "https://*/*"]
+  }]
+}
