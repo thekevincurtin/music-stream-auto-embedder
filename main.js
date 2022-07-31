@@ -1,23 +1,38 @@
 // Listens to any DOM updates and appends the OEmbed widget if necessary
-
-// const throws error due to page updates
-var SOUNDCLOUD_WIDGET_MAX_WIDTH = "300px";
-var INJECTION_DIV_MAP = {
+console.log("main.js called");
+const SOUNDCLOUD_WIDGET_MAX_WIDTH = "300px";
+const INJECTION_DIV_MAP = {
     "ra.co": "div .jBqnIi",
     "edmtrain.com": "div .customSlider"
 }
+var updatedSet;
 
+// Initialize
+chrome.runtime.onMessage.addListener((m) => {
+    console.log(m);
 
-document.addEventListener("DOMNodeInserted", () => {
-    createWidget();
+    // Check for URLs on DOM updates
+    if (document.getElementById("music-stream-auto-embedder-init") !== null) return;
+    let statusDiv = document.createElement("div");
+    statusDiv.setAttribute("id", "music-stream-auto-embedder-init");
+    document.body.appendChild(statusDiv);
+    console.log("added status div");
+
+    // TODO fix refreshing on edmtrain
+    updatedSet = new Set();
+    
+    document.addEventListener("DOMNodeInserted", () => createWidget());
+    console.log("added listener");
 });
+  
 
 function createWidget() {
-    console.log("Create widget");
+    if (updatedSet == undefined) return;
     const links = document.querySelectorAll("a[href*='soundcloud.com']");
     Array.from(links)
-        .filter((link) => !updatedSet.has(link.href))
+        .filter((link) => !updatedSet.has(link.href) && link.offsetParent !== null)
         .forEach((link) => {
+            console.log("start request");
             const endpoint = "https://soundcloud.com/oembed?" + new URLSearchParams({
                 url: link.href,
                 maxwidth: SOUNDCLOUD_WIDGET_MAX_WIDTH
@@ -28,6 +43,7 @@ function createWidget() {
                     return response.text();
                 })
                 .then((text) => {
+                    console.log("append widget");
                     appendWidget(link, JSON.parse(text));
                 });
     });

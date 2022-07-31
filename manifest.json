@@ -8,7 +8,14 @@
   },
   "permissions": [
       "scripting",
-      "tabs"
+      "tabs",
+      "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "js": ["main.js"],
+      "matches": ["https://*/*"]
+    }
   ],
   "host_permissions": [
     "http://*/*", 
