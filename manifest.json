@@ -4,7 +4,7 @@
   "version": "1.0",
   "manifest_version": 3,
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "hook.js"
   },
   "permissions": [
       "scripting",
@@ -13,9 +13,5 @@
   "host_permissions": [
     "http://*/*", 
     "https://*/*"
-  ],
-  "web_accessible_resources": [{
-    "resources": ["jquery-3.6.0.min.js"],
-    "matches": ["http://*/*", "https://*/*"]
-  }]
+  ]
 }
