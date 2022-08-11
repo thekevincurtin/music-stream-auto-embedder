@@ -14,11 +14,12 @@
   "content_scripts": [
     {
       "js": ["main.js"],
-      "matches": ["https://*/*"]
+      "matches": ["https://*/*", "http://*/*"]
     }
   ],
-  "host_permissions": [
-    "http://*/*", 
-    "https://*/*"
-  ]
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "icons": {
+    "128": "technoman128.png",
+    "64": "technoman64.png"
+  }
 }
